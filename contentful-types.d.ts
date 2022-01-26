@@ -18,9 +18,6 @@ export interface IArticleFields {
 
   /** Контент */
   content: Document;
-
-  /** Текст кнопки */
-  action?: string | undefined;
 }
 
 export interface IArticle extends Entry<IArticleFields> {

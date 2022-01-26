@@ -4,4 +4,7 @@ module.exports = {
     domains: ['images.ctfassets.net'],
     formats: ['image/jpg', 'image/png', 'image/webp'],
   },
+  typescript: {
+    ignoreBuildErrors: true,
+  },
 }
