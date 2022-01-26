@@ -15,9 +15,20 @@ import Container from '@mui/material/Container';
 import  Typography from '@mui/material/Typography';
 import  Image from 'next/image';
 import { CardActionArea } from '@material-ui/core';
+import Rating from '@mui/material/Rating';
+import FavoriteIcon from '@mui/icons-material/Favorite';
+import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
 
 
 
+const StyledRating = styled(Rating)({
+    '& .MuiRating-iconFilled': {
+      color: '#ff6d75',
+    },
+    '& .MuiRating-iconHover': {
+      color: '#ff3d47',
+    },
+  });
 
 
 export default function Home(props: { title: string, homePage: IHome, articles: IArticle[], image: string}): JSX.Element {
@@ -40,7 +51,7 @@ export default function Home(props: { title: string, homePage: IHome, articles: 
                     </div>
                 </div> */}
 
-                <Container maxWidth="lg" style={{paddingTop:'50px'}}>
+                <Container maxWidth="lg" style={{paddingTop:'30px', paddingBottom:'60px'}}>
                 <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> 
 
                         {props.articles.map((article, index) => {
@@ -50,7 +61,8 @@ export default function Home(props: { title: string, homePage: IHome, articles: 
 
                                 <Grid item xs={12} sm={6} md={4} >
                                 <CardActionArea>
-                                <Card className='articles' style={{height:'500px'}}>
+                                <Card className='articles' style={{height:'530px'}}>
+                                
                                 <CardMedia
                                   component="img"
                                   height="300"
@@ -60,19 +72,30 @@ export default function Home(props: { title: string, homePage: IHome, articles: 
                                   <Typography align="center" gutterBottom variant="h5" component="h2" style={{paddingTop:'20px'}}>
                                     <b>{article.fields.title}</b>
                                     </Typography>
-                                    
-                                    <Typography align="center" variant="subtitle2">
+                                    <Container align="center">
+                                    <StyledRating
+                                      name="customized-color"
+                                      defaultValue={3}
+                                      getLabelText={(value: number) => `${value} Heart${value !== 1 ? 's' : ''}`}
+                                      precision={0.2}
+                                      icon={<FavoriteIcon fontSize="inherit" />}
+                                      emptyIcon={<FavoriteBorderIcon fontSize="inherit" />}
+                                    />
+                                    </Container>
+                                    <Typography align="center" variant="subtitle2" style={{paddingTop:'5px'}}>
                                     {article.fields.description}
                                     </Typography>
+                                    
                                   </Card>
                                   </CardActionArea>
                                 </Grid>
                                 </Link>
-                                
+
                                       
                             )
                         })}
               </Grid>
+              
               </Container>
             </main>
         </div>
