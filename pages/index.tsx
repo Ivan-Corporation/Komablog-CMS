@@ -1,16 +1,30 @@
+/* eslint-disable react/jsx-key */
 import Head from 'next/head'
 import {GetStaticProps} from "next";
 import Link from 'next/link';
 import client from "../contentful";
 import {IArticle, IArticleFields, IHome, IHomeFields} from "../contentful-types";
 import {documentToReactComponents} from '@contentful/rich-text-react-renderer';
-import {
-    Card, Row, CardText, Col,
-    CardTitle, Button, Container
-} from 'reactstrap';
+import { styled } from '@mui/material/styles';
+import Grid from '@mui/material/Grid';
+import Paper from '@mui/material/Paper';
+import Box from '@mui/material/Box';
+import Card from '@mui/material/Card';
+import CardMedia from '@mui/material/CardMedia';
+import Container from '@mui/material/Container';
+import  Typography from '@mui/material/Typography';
+import  Image from 'next/image';
+import { CardActionArea } from '@material-ui/core';
 
 
-export default function Home(props: { title: string, homePage: IHome, articles: IArticle[] }) {
+
+
+
+export default function Home(props: { title: string, homePage: IHome, articles: IArticle[], image: string}): JSX.Element {
+
+
+
+
     return (
         <div>
             <Head>
@@ -18,36 +32,48 @@ export default function Home(props: { title: string, homePage: IHome, articles: 
             </Head>
 
             <main>
-                <div
-                    className="text-white text-center p-5"
-                    style={{
-                        background: `url("http:${props.homePage.fields.image?.fields.file.url}") no-repeat center / cover`,
-                    }}>
-                    <h1 className='mt-5'>{props.homePage.fields.title}</h1>
-                    <div className='mb-5'>
-                        {documentToReactComponents(props.homePage.fields.text!)}
+                {/* <div>
+                    
+                    <Typography align="center" variant="h2">{props.homePage.fields.title}</Typography>
+                    <div>
+                        {documentToReactComponents(props.homePage.fields.description!)}
                     </div>
-                </div>
+                </div> */}
 
-                <Container className="mt-5">
-                    <Row>
+                <Container maxWidth="lg" style={{paddingTop:'50px'}}>
+                <Grid container rowSpacing={1} columnSpacing={{ xs: 1, sm: 2, md: 3 }}> 
+
                         {props.articles.map((article, index) => {
                             return (
-                                <Col sm="4" key={index}>
-                                    <Card body>
-                                        <CardTitle tag="h5">{article.fields.title}</CardTitle>
-                                        <CardText>
-                                            {article.fields.description}
-                                        </CardText>
-                                        <Link href={`/articles/${article.fields.slug}`}>
-                                            <Button>{article.fields.action}</Button>
-                                        </Link>
-                                    </Card>
-                                </Col>
+                                
+                                <Link href={`/articles/${article.fields.slug}`} >
+
+                                <Grid item xs={12} sm={6} md={4} >
+                                <CardActionArea>
+                                <Card className='articles' style={{height:'500px'}}>
+                                <CardMedia
+                                  component="img"
+                                  height="300"
+                                  image={`http:${article.fields.image?.fields.file.url}`}
+                                  alt={article.fields.title}
+                                />
+                                  <Typography align="center" gutterBottom variant="h5" component="h2" style={{paddingTop:'20px'}}>
+                                    <b>{article.fields.title}</b>
+                                    </Typography>
+                                    
+                                    <Typography align="center" variant="subtitle2">
+                                    {article.fields.description}
+                                    </Typography>
+                                  </Card>
+                                  </CardActionArea>
+                                </Grid>
+                                </Link>
+                                
+                                      
                             )
                         })}
-                    </Row>
-                </Container>
+              </Grid>
+              </Container>
             </main>
         </div>
     )
